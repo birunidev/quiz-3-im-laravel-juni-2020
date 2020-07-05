@@ -36,27 +36,24 @@ class ArticleController extends Controller
 
         $articles = ArticleModel::create($data);
 
-        return Redirect::to('articles.index');
+        return Redirect::to('articles');
     }
 
     public function index(){
         // get all articles
         $articles = ArticleModel::get();
 
-        
         return view('articles.index', compact('articles'));
     }
 
-    public function show($id){
-        $article = ArticleModel::get_one($id);
+    public function show($slug){
+        $article = ArticleModel::get_one_by_slug($slug);
         return view('articles.single', compact('article'));
     }   
 
-    public function edit($id){
-
-        
-        return view('articles.edit');
-        
+    public function edit(Request $request, $id){
+        $article = ArticleModel::get_one($id);
+        return view('articles.update', compact('article'));
     }
 
     public function update(Request $request, $id){
@@ -82,9 +79,7 @@ class ArticleController extends Controller
 
     public function destroy($id){
         
-
         $deletedArticel = ArticleModel::delete($id);
-
         return Redirect::to('articles.index');
     }
 
