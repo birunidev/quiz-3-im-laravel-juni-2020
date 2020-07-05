@@ -48,7 +48,15 @@ class ArticleController extends Controller
 
     public function show($slug){
         $article = ArticleModel::get_one_by_slug($slug);
-        return view('articles.single', compact('article'));
+
+        $tags = $article->tag;
+        
+        $tagArr = explode(',',$tags);
+
+        return view('articles.single', [
+            'article'=> $article,
+            'tagsArr' => $tagArr
+        ]);
     }   
 
     public function edit(Request $request, $id){
